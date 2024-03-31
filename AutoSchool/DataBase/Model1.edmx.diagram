@@ -4,56 +4,56 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="66f739666e1945c1bb0924ed48e3c437" Name="Diagram1">
-        <EntityTypeShape EntityType="AutoSchoolModel.BodyType" Width="1.5" PointX="0.75" PointY="11.75" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Car" Width="1.5" PointX="3" PointY="2.125" />
-        <EntityTypeShape EntityType="AutoSchoolModel.CarBrand" Width="1.5" PointX="0.75" PointY="14.125" />
-        <EntityTypeShape EntityType="AutoSchoolModel.CarDistribution" Width="1.5" PointX="5.25" PointY="0.75" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Categories" Width="1.5" PointX="1.25" PointY="27" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Color" Width="1.5" PointX="0.75" PointY="18.875" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Country" Width="1.5" PointX="0.75" PointY="4" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Course" Width="1.5" PointX="3.5" PointY="26.875" />
-        <EntityTypeShape EntityType="AutoSchoolModel.DecommissionedCars" Width="1.5" PointX="5.25" PointY="3.5" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Drive" Width="1.5" PointX="0.75" PointY="16.5" />
-        <EntityTypeShape EntityType="AutoSchoolModel.ElementsBeingWorkedOut" Width="1.5" PointX="7.75" PointY="1.75" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Employee" Width="1.5" PointX="3" PointY="21.875" />
-        <EntityTypeShape EntityType="AutoSchoolModel.EngineCapacity" Width="1.5" PointX="0.75" PointY="7.125" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Groups" Width="1.5" PointX="5.75" PointY="26.625" />
-        <EntityTypeShape EntityType="AutoSchoolModel.GroupStudent" Width="1.5" PointX="8" PointY="9.875" />
-        <EntityTypeShape EntityType="AutoSchoolModel.History" Width="1.5" PointX="2.75" PointY="8.75" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Lessons" Width="1.5" PointX="8" PointY="15.875" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Marks" Width="1.5" PointX="5.75" PointY="17.625" />
-        <EntityTypeShape EntityType="AutoSchoolModel.PlacesStudy" Width="1.5" PointX="5.75" PointY="15.25" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Post" Width="1.5" PointX="0.75" PointY="22.625" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Student" Width="1.5" PointX="5.75" PointY="9.375" />
-        <EntityTypeShape EntityType="AutoSchoolModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.75" />
-        <EntityTypeShape EntityType="AutoSchoolModel.TheoreticalClasses" Width="1.5" PointX="8" PointY="26.625" />
-        <EntityTypeShape EntityType="AutoSchoolModel.TypeKPP" Width="1.5" PointX="0.75" PointY="9.375" />
-        <EntityTypeShape EntityType="AutoSchoolModel.CARr" Width="1.5" PointX="9.75" PointY="1.75" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Employe" Width="1.5" PointX="9.75" PointY="5.75" />
-        <EntityTypeShape EntityType="AutoSchoolModel.Student_Group" Width="1.5" PointX="2.75" PointY="11.75" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Car_BodyType" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Car_CarBrand" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Car_Color" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Car_Country" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Car_Drive" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Car_EngineCapacity" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Car_TypeKPP" />
-        <AssociationConnector Association="AutoSchoolModel.FK_CarDistribution_Car" />
-        <AssociationConnector Association="AutoSchoolModel.FK_WriteDownt_Car" />
-        <AssociationConnector Association="AutoSchoolModel.FK_CarDistribution_Employee" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Course_Categories" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Groups_Course" />
-        <AssociationConnector Association="AutoSchoolModel.FK_WriteDownt_Employee" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Employee_Post" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Groups_Employee" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Lessons_Employee" />
-        <AssociationConnector Association="AutoSchoolModel.FK_GroupStudent_Groups1" />
-        <AssociationConnector Association="AutoSchoolModel.FK_TheoreticalClasses_Groups" />
-        <AssociationConnector Association="AutoSchoolModel.FK_GroupStudent_Student1" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Lessons_Marks" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Lessons_PlacesStudy" />
-        <AssociationConnector Association="AutoSchoolModel.FK_Lessons_Student" />
+      <Diagram DiagramId="2290759b0199416c9c0b11d31e95f7eb" Name="Diagram1">
+        <EntityTypeShape EntityType="AutoSchoolModel.BodyType" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Car" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.CarBrand" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.CarDistribution" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Categories" Width="1.5" PointX="1.25" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Color" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Country" Width="1.5" PointX="0.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Course" Width="1.5" PointX="3.5" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.DecommissionedCars" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Drive" Width="1.5" PointX="0.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.ElementsBeingWorkedOut" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Employee" Width="1.5" PointX="3" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.EngineCapacity" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Groups" Width="1.5" PointX="5.75" PointY="26.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.GroupStudent" Width="1.5" PointX="8" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.History" Width="1.5" PointX="2.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Lessons" Width="1.5" PointX="8" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Marks" Width="1.5" PointX="5.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.PlacesStudy" Width="1.5" PointX="5.75" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Post" Width="1.5" PointX="0.75" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Student" Width="1.5" PointX="5.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.TheoreticalClasses" Width="1.5" PointX="8" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.TypeKPP" Width="1.5" PointX="0.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.CARr" Width="1.5" PointX="9.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Employe" Width="1.5" PointX="9.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoSchoolModel.Student_Group" Width="1.5" PointX="2.75" PointY="12" IsExpanded="true" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Car_BodyType" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Car_CarBrand" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Car_Color" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Car_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Car_Drive" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Car_EngineCapacity" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Car_TypeKPP" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_CarDistribution_Car" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_WriteDownt_Car" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_CarDistribution_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Course_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Groups_Course" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_WriteDownt_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Employee_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Groups_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Lessons_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_GroupStudent_Groups1" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_TheoreticalClasses_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_GroupStudent_Student1" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Lessons_Marks" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Lessons_PlacesStudy" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoSchoolModel.FK_Lessons_Student" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

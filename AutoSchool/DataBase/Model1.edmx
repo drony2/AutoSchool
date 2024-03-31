@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище AutoSchoolModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище AutoSchoolModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BodyType">
           <Key>
             <PropertyRef Name="Id" />
@@ -111,6 +111,8 @@
           <Property Name="Age" Type="int" />
           <Property Name="Phone" Type="nchar" MaxLength="18" Nullable="false" />
           <Property Name="IdPost" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Loggin" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="EngineCapacity">
           <Key>
@@ -745,7 +747,8 @@
             <End Role="DecommissionedCars" EntitySet="DecommissionedCars" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AutoSchoolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -756,16 +759,696 @@
           <Property Name="PassLessons" Type="Int32" />
           <Property Name="NotPassLessons" Type="Int32" />
         </ComplexType>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityType Name="BodyType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Car_BodyType" FromRole="BodyType" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdBodyType" Type="Int32" Nullable="false" />
+          <Property Name="IdDrive" Type="Int32" Nullable="false" />
+          <Property Name="IdCarBrand" Type="Int32" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdCountry" Type="Int32" Nullable="false" />
+          <Property Name="YearRelease" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="State" Type="Boolean" Nullable="false" />
+          <Property Name="StateNumber" Type="String" MaxLength="8" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="IdColor" Type="Int32" Nullable="false" />
+          <Property Name="IdTypeKPP" Type="Int32" Nullable="false" />
+          <Property Name="IdEngineCapacity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BodyType" Relationship="Self.FK_Car_BodyType" FromRole="Car" ToRole="BodyType" />
+          <NavigationProperty Name="CarBrand" Relationship="Self.FK_Car_CarBrand" FromRole="Car" ToRole="CarBrand" />
+          <NavigationProperty Name="Color" Relationship="Self.FK_Car_Color" FromRole="Car" ToRole="Color" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Car_Country" FromRole="Car" ToRole="Country" />
+          <NavigationProperty Name="Drive" Relationship="Self.FK_Car_Drive" FromRole="Car" ToRole="Drive" />
+          <NavigationProperty Name="EngineCapacity" Relationship="Self.FK_Car_EngineCapacity" FromRole="Car" ToRole="EngineCapacity" />
+          <NavigationProperty Name="TypeKPP" Relationship="Self.FK_Car_TypeKPP" FromRole="Car" ToRole="TypeKPP" />
+          <NavigationProperty Name="CarDistribution" Relationship="Self.FK_CarDistribution_Car" FromRole="Car" ToRole="CarDistribution" />
+          <NavigationProperty Name="DecommissionedCars" Relationship="Self.FK_WriteDownt_Car" FromRole="Car" ToRole="DecommissionedCars" />
+        </EntityType>
+        <EntityType Name="CarBrand">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Car_CarBrand" FromRole="CarBrand" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="CarDistribution">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCar" Type="Int32" Nullable="false" />
+          <Property Name="IdEmployee" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_CarDistribution_Car" FromRole="CarDistribution" ToRole="Car" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_CarDistribution_Employee" FromRole="CarDistribution" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_Course_Categories" FromRole="Categories" ToRole="Course" />
+        </EntityType>
+        <EntityType Name="Color">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Car_Color" FromRole="Color" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Car_Country" FromRole="Country" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="IdCategories" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_Course_Categories" FromRole="Course" ToRole="Categories" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK_Groups_Course" FromRole="Course" ToRole="Groups" />
+        </EntityType>
+        <EntityType Name="DecommissionedCars">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCar" Type="Int32" Nullable="false" />
+          <Property Name="IdEmployee" Type="Int32" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ServiceLife" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_WriteDownt_Car" FromRole="DecommissionedCars" ToRole="Car" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_WriteDownt_Employee" FromRole="DecommissionedCars" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Drive">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Car_Drive" FromRole="Drive" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="ElementsBeingWorkedOut">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Phone" Type="String" MaxLength="18" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="IdPost" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Loggin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CarDistribution" Relationship="Self.FK_CarDistribution_Employee" FromRole="Employee" ToRole="CarDistribution" />
+          <NavigationProperty Name="DecommissionedCars" Relationship="Self.FK_WriteDownt_Employee" FromRole="Employee" ToRole="DecommissionedCars" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_Employee_Post" FromRole="Employee" ToRole="Post" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK_Groups_Employee" FromRole="Employee" ToRole="Groups" />
+          <NavigationProperty Name="Lessons" Relationship="Self.FK_Lessons_Employee" FromRole="Employee" ToRole="Lessons" />
+        </EntityType>
+        <EntityType Name="EngineCapacity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="Decimal" Precision="18" Scale="1" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Car_EngineCapacity" FromRole="EngineCapacity" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateOfFormation" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdEmployee" Type="Int32" Nullable="false" />
+          <Property Name="IdCourse" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_Groups_Course" FromRole="Groups" ToRole="Course" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Groups_Employee" FromRole="Groups" ToRole="Employee" />
+          <NavigationProperty Name="GroupStudent" Relationship="Self.FK_GroupStudent_Groups1" FromRole="Groups" ToRole="GroupStudent" />
+          <NavigationProperty Name="TheoreticalClasses" Relationship="Self.FK_TheoreticalClasses_Groups" FromRole="Groups" ToRole="TheoreticalClasses" />
+        </EntityType>
+        <EntityType Name="GroupStudent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdStudent" Type="Int32" Nullable="false" />
+          <Property Name="IdGroup" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK_GroupStudent_Groups1" FromRole="GroupStudent" ToRole="Groups" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_GroupStudent_Student1" FromRole="GroupStudent" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Lessons">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmployee" Type="Int32" Nullable="false" />
+          <Property Name="IdMarks" Type="Int32" Nullable="false" />
+          <Property Name="IdStudent" Type="Int32" Nullable="false" />
+          <Property Name="IdPlacesStudy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Lessons_Employee" FromRole="Lessons" ToRole="Employee" />
+          <NavigationProperty Name="Marks" Relationship="Self.FK_Lessons_Marks" FromRole="Lessons" ToRole="Marks" />
+          <NavigationProperty Name="PlacesStudy" Relationship="Self.FK_Lessons_PlacesStudy" FromRole="Lessons" ToRole="PlacesStudy" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_Lessons_Student" FromRole="Lessons" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Marks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Lessons" Relationship="Self.FK_Lessons_Marks" FromRole="Marks" ToRole="Lessons" />
+        </EntityType>
+        <EntityType Name="PlacesStudy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Lessons" Relationship="Self.FK_Lessons_PlacesStudy" FromRole="PlacesStudy" ToRole="Lessons" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Post" FromRole="Post" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasportSeries" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="PasportNum" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GroupStudent" Relationship="Self.FK_GroupStudent_Student1" FromRole="Student" ToRole="GroupStudent" />
+          <NavigationProperty Name="Lessons" Relationship="Self.FK_Lessons_Student" FromRole="Student" ToRole="Lessons" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TheoreticalClasses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdGroup" Type="Int32" Nullable="false" />
+          <Property Name="NumClass" Type="Int32" Nullable="false" />
+          <Property Name="LessonNum" Type="Int32" Nullable="false" />
+          <Property Name="Duration" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK_TheoreticalClasses_Groups" FromRole="TheoreticalClasses" ToRole="Groups" />
+        </EntityType>
+        <EntityType Name="TypeKPP">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Car_TypeKPP" FromRole="TypeKPP" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="CARr">
+          <Key>
+            <PropertyRef Name="Бренд" />
+            <PropertyRef Name="Модель" />
+            <PropertyRef Name="КПП" />
+            <PropertyRef Name="Двигатель" />
+            <PropertyRef Name="Привод" />
+            <PropertyRef Name="Год_выпуска" />
+            <PropertyRef Name="гос__Номер" />
+          </Key>
+          <Property Name="Бренд" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Модель" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Цвет" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="КПП" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Двигатель" Type="Decimal" Precision="18" Scale="1" Nullable="false" />
+          <Property Name="Привод" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Год_выпуска" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="гос__Номер" Type="String" MaxLength="8" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employe">
+          <Key>
+            <PropertyRef Name="ФИО" />
+            <PropertyRef Name="Телефон" />
+            <PropertyRef Name="Должностб" />
+          </Key>
+          <Property Name="ФИО" Type="String" MaxLength="152" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Телефон" Type="String" MaxLength="18" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Должностб" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Возраст" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Student_Group">
+          <Key>
+            <PropertyRef Name="ФИО" />
+            <PropertyRef Name="Телефон" />
+            <PropertyRef Name="Серия_и_номер" />
+            <PropertyRef Name="Возраст" />
+            <PropertyRef Name="Номер_группы" />
+          </Key>
+          <Property Name="ФИО" Type="String" MaxLength="152" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Телефон" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Серия_и_номер" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Возраст" Type="Int32" Nullable="false" />
+          <Property Name="Номер_группы" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Car_BodyType">
+          <End Role="BodyType" Type="Self.BodyType" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BodyType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="IdBodyType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_CarBrand">
+          <End Role="CarBrand" Type="Self.CarBrand" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarBrand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="IdCarBrand" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Color">
+          <End Role="Color" Type="Self.Color" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Color">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="IdColor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="IdCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Drive">
+          <End Role="Drive" Type="Self.Drive" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drive">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="IdDrive" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_EngineCapacity">
+          <End Role="EngineCapacity" Type="Self.EngineCapacity" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EngineCapacity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="IdEngineCapacity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_TypeKPP">
+          <End Role="TypeKPP" Type="Self.TypeKPP" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeKPP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="IdTypeKPP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarDistribution_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="CarDistribution" Type="Self.CarDistribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CarDistribution">
+              <PropertyRef Name="IdCar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WriteDownt_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="DecommissionedCars" Type="Self.DecommissionedCars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DecommissionedCars">
+              <PropertyRef Name="IdCar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarDistribution_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="CarDistribution" Type="Self.CarDistribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CarDistribution">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Course_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="IdCategories" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Groups_Course">
+          <End Role="Course" Type="Self.Course" Multiplicity="1" />
+          <End Role="Groups" Type="Self.Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Groups">
+              <PropertyRef Name="IdCourse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WriteDownt_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="DecommissionedCars" Type="Self.DecommissionedCars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DecommissionedCars">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Groups_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Groups" Type="Self.Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Groups">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lessons_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lessons">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupStudent_Groups1">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="GroupStudent" Type="Self.GroupStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupStudent">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TheoreticalClasses_Groups">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="TheoreticalClasses" Type="Self.TheoreticalClasses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TheoreticalClasses">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupStudent_Student1">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="GroupStudent" Type="Self.GroupStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupStudent">
+              <PropertyRef Name="IdStudent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lessons_Marks">
+          <End Role="Marks" Type="Self.Marks" Multiplicity="1" />
+          <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lessons">
+              <PropertyRef Name="IdMarks" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lessons_PlacesStudy">
+          <End Role="PlacesStudy" Type="Self.PlacesStudy" Multiplicity="1" />
+          <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlacesStudy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lessons">
+              <PropertyRef Name="IdPlacesStudy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lessons_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lessons">
+              <PropertyRef Name="IdStudent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AutoSchoolEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BodyType" EntityType="Self.BodyType" />
+          <EntitySet Name="Car" EntityType="Self.Car" />
+          <EntitySet Name="CarBrand" EntityType="Self.CarBrand" />
+          <EntitySet Name="CarDistribution" EntityType="Self.CarDistribution" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" />
+          <EntitySet Name="Color" EntityType="Self.Color" />
+          <EntitySet Name="Country" EntityType="Self.Country" />
+          <EntitySet Name="Course" EntityType="Self.Course" />
+          <EntitySet Name="DecommissionedCars" EntityType="Self.DecommissionedCars" />
+          <EntitySet Name="Drive" EntityType="Self.Drive" />
+          <EntitySet Name="ElementsBeingWorkedOut" EntityType="Self.ElementsBeingWorkedOut" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="EngineCapacity" EntityType="Self.EngineCapacity" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" />
+          <EntitySet Name="GroupStudent" EntityType="Self.GroupStudent" />
+          <EntitySet Name="History" EntityType="Self.History" />
+          <EntitySet Name="Lessons" EntityType="Self.Lessons" />
+          <EntitySet Name="Marks" EntityType="Self.Marks" />
+          <EntitySet Name="PlacesStudy" EntityType="Self.PlacesStudy" />
+          <EntitySet Name="Post" EntityType="Self.Post" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TheoreticalClasses" EntityType="Self.TheoreticalClasses" />
+          <EntitySet Name="TypeKPP" EntityType="Self.TypeKPP" />
+          <EntitySet Name="CARr" EntityType="Self.CARr" />
+          <EntitySet Name="Employe" EntityType="Self.Employe" />
+          <EntitySet Name="Student_Group" EntityType="Self.Student_Group" />
+          <AssociationSet Name="FK_Car_BodyType" Association="Self.FK_Car_BodyType">
+            <End Role="BodyType" EntitySet="BodyType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_CarBrand" Association="Self.FK_Car_CarBrand">
+            <End Role="CarBrand" EntitySet="CarBrand" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Color" Association="Self.FK_Car_Color">
+            <End Role="Color" EntitySet="Color" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Country" Association="Self.FK_Car_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Drive" Association="Self.FK_Car_Drive">
+            <End Role="Drive" EntitySet="Drive" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_EngineCapacity" Association="Self.FK_Car_EngineCapacity">
+            <End Role="EngineCapacity" EntitySet="EngineCapacity" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_TypeKPP" Association="Self.FK_Car_TypeKPP">
+            <End Role="TypeKPP" EntitySet="TypeKPP" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarDistribution_Car" Association="Self.FK_CarDistribution_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="CarDistribution" EntitySet="CarDistribution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WriteDownt_Car" Association="Self.FK_WriteDownt_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="DecommissionedCars" EntitySet="DecommissionedCars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarDistribution_Employee" Association="Self.FK_CarDistribution_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="CarDistribution" EntitySet="CarDistribution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Course_Categories" Association="Self.FK_Course_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Course" EntitySet="Course" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groups_Course" Association="Self.FK_Groups_Course">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Groups" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WriteDownt_Employee" Association="Self.FK_WriteDownt_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DecommissionedCars" EntitySet="DecommissionedCars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Post" Association="Self.FK_Employee_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groups_Employee" Association="Self.FK_Groups_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Groups" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lessons_Employee" Association="Self.FK_Lessons_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupStudent_Groups1" Association="Self.FK_GroupStudent_Groups1">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupStudent" EntitySet="GroupStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TheoreticalClasses_Groups" Association="Self.FK_TheoreticalClasses_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="TheoreticalClasses" EntitySet="TheoreticalClasses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupStudent_Student1" Association="Self.FK_GroupStudent_Student1">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="GroupStudent" EntitySet="GroupStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lessons_Marks" Association="Self.FK_Lessons_Marks">
+            <End Role="Marks" EntitySet="Marks" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lessons_PlacesStudy" Association="Self.FK_Lessons_PlacesStudy">
+            <End Role="PlacesStudy" EntitySet="PlacesStudy" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lessons_Student" Association="Self.FK_Lessons_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
           <FunctionImport Name="AVG_AGE1" IsComposable="true" ReturnType="Collection(AutoSchoolModel.AVG_AGE1_Result)">
-          <Parameter Name="idGroup" Mode="In" Type="Int32" />
+            <Parameter Name="idGroup" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GETLessCount" IsComposable="true" ReturnType="Collection(AutoSchoolModel.GETLessCount_Result)">
-          <Parameter Name="idStudent" Mode="In" Type="Int32" />
+            <Parameter Name="idStudent" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AddStudentInGroup" />
           <FunctionImport Name="CarUse" ReturnType="Collection(AutoSchoolModel.CarUse_Result)">
-          <Parameter Name="TitleCategory" Mode="In" Type="String" />
+            <Parameter Name="TitleCategory" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SellCarState1" ReturnType="Collection(AutoSchoolModel.SellCarState1_Result)" />
           <FunctionImport Name="sp_alterdiagram">
@@ -799,123 +1482,8 @@
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="StudentCategory" ReturnType="Collection(AutoSchoolModel.StudentCategory_Result)">
-          <Parameter Name="NameCategory" Mode="In" Type="String" />
+            <Parameter Name="NameCategory" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="BodyType" EntityType="AutoSchoolModel.BodyType" />
-          <EntitySet Name="Car" EntityType="AutoSchoolModel.Car" />
-          <EntitySet Name="CarBrand" EntityType="AutoSchoolModel.CarBrand" />
-          <EntitySet Name="CarDistribution" EntityType="AutoSchoolModel.CarDistribution" />
-          <EntitySet Name="Categories" EntityType="AutoSchoolModel.Categories" />
-          <EntitySet Name="Color" EntityType="AutoSchoolModel.Color" />
-          <EntitySet Name="Country" EntityType="AutoSchoolModel.Country" />
-          <EntitySet Name="Course" EntityType="AutoSchoolModel.Course" />
-          <EntitySet Name="DecommissionedCars" EntityType="AutoSchoolModel.DecommissionedCars" />
-          <EntitySet Name="Drive" EntityType="AutoSchoolModel.Drive" />
-          <EntitySet Name="ElementsBeingWorkedOut" EntityType="AutoSchoolModel.ElementsBeingWorkedOut" />
-          <EntitySet Name="Employee" EntityType="AutoSchoolModel.Employee" />
-          <EntitySet Name="EngineCapacity" EntityType="AutoSchoolModel.EngineCapacity" />
-          <EntitySet Name="Groups" EntityType="AutoSchoolModel.Groups" />
-          <EntitySet Name="GroupStudent" EntityType="AutoSchoolModel.GroupStudent" />
-          <EntitySet Name="History" EntityType="AutoSchoolModel.History" />
-          <EntitySet Name="Lessons" EntityType="AutoSchoolModel.Lessons" />
-          <EntitySet Name="Marks" EntityType="AutoSchoolModel.Marks" />
-          <EntitySet Name="PlacesStudy" EntityType="AutoSchoolModel.PlacesStudy" />
-          <EntitySet Name="Post" EntityType="AutoSchoolModel.Post" />
-          <EntitySet Name="Student" EntityType="AutoSchoolModel.Student" />
-          <EntitySet Name="sysdiagrams" EntityType="AutoSchoolModel.sysdiagrams" />
-          <EntitySet Name="TheoreticalClasses" EntityType="AutoSchoolModel.TheoreticalClasses" />
-          <EntitySet Name="TypeKPP" EntityType="AutoSchoolModel.TypeKPP" />
-          <EntitySet Name="CARr" EntityType="AutoSchoolModel.CARr" />
-          <EntitySet Name="Employe" EntityType="AutoSchoolModel.Employe" />
-          <EntitySet Name="Student_Group" EntityType="AutoSchoolModel.Student_Group" />
-          <AssociationSet Name="FK_Car_BodyType" Association="AutoSchoolModel.FK_Car_BodyType">
-            <End Role="BodyType" EntitySet="BodyType" />
-            <End Role="Car" EntitySet="Car" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Car_CarBrand" Association="AutoSchoolModel.FK_Car_CarBrand">
-            <End Role="CarBrand" EntitySet="CarBrand" />
-            <End Role="Car" EntitySet="Car" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Car_Color" Association="AutoSchoolModel.FK_Car_Color">
-            <End Role="Color" EntitySet="Color" />
-            <End Role="Car" EntitySet="Car" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Car_Country" Association="AutoSchoolModel.FK_Car_Country">
-            <End Role="Country" EntitySet="Country" />
-            <End Role="Car" EntitySet="Car" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Car_Drive" Association="AutoSchoolModel.FK_Car_Drive">
-            <End Role="Drive" EntitySet="Drive" />
-            <End Role="Car" EntitySet="Car" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Car_EngineCapacity" Association="AutoSchoolModel.FK_Car_EngineCapacity">
-            <End Role="EngineCapacity" EntitySet="EngineCapacity" />
-            <End Role="Car" EntitySet="Car" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Car_TypeKPP" Association="AutoSchoolModel.FK_Car_TypeKPP">
-            <End Role="TypeKPP" EntitySet="TypeKPP" />
-            <End Role="Car" EntitySet="Car" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CarDistribution_Car" Association="AutoSchoolModel.FK_CarDistribution_Car">
-            <End Role="Car" EntitySet="Car" />
-            <End Role="CarDistribution" EntitySet="CarDistribution" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WriteDownt_Car" Association="AutoSchoolModel.FK_WriteDownt_Car">
-            <End Role="Car" EntitySet="Car" />
-            <End Role="DecommissionedCars" EntitySet="DecommissionedCars" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CarDistribution_Employee" Association="AutoSchoolModel.FK_CarDistribution_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="CarDistribution" EntitySet="CarDistribution" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Course_Categories" Association="AutoSchoolModel.FK_Course_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Course" EntitySet="Course" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Groups_Course" Association="AutoSchoolModel.FK_Groups_Course">
-            <End Role="Course" EntitySet="Course" />
-            <End Role="Groups" EntitySet="Groups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WriteDownt_Employee" Association="AutoSchoolModel.FK_WriteDownt_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="DecommissionedCars" EntitySet="DecommissionedCars" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_Post" Association="AutoSchoolModel.FK_Employee_Post">
-            <End Role="Post" EntitySet="Post" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Groups_Employee" Association="AutoSchoolModel.FK_Groups_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="Groups" EntitySet="Groups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lessons_Employee" Association="AutoSchoolModel.FK_Lessons_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="Lessons" EntitySet="Lessons" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupStudent_Groups1" Association="AutoSchoolModel.FK_GroupStudent_Groups1">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="GroupStudent" EntitySet="GroupStudent" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TheoreticalClasses_Groups" Association="AutoSchoolModel.FK_TheoreticalClasses_Groups">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="TheoreticalClasses" EntitySet="TheoreticalClasses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupStudent_Student1" Association="AutoSchoolModel.FK_GroupStudent_Student1">
-            <End Role="Student" EntitySet="Student" />
-            <End Role="GroupStudent" EntitySet="GroupStudent" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lessons_Marks" Association="AutoSchoolModel.FK_Lessons_Marks">
-            <End Role="Marks" EntitySet="Marks" />
-            <End Role="Lessons" EntitySet="Lessons" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lessons_PlacesStudy" Association="AutoSchoolModel.FK_Lessons_PlacesStudy">
-            <End Role="PlacesStudy" EntitySet="PlacesStudy" />
-            <End Role="Lessons" EntitySet="Lessons" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lessons_Student" Association="AutoSchoolModel.FK_Lessons_Student">
-            <End Role="Student" EntitySet="Student" />
-            <End Role="Lessons" EntitySet="Lessons" />
-          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="CarUse_Result">
           <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
@@ -940,576 +1508,286 @@
         <ComplexType Name="StudentCategory_Result">
           <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Patronymic" Nullable="false" MaxLength="50" />
         </ComplexType>
-        <EntityType Name="BodyType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Car" Relationship="AutoSchoolModel.FK_Car_BodyType" FromRole="BodyType" ToRole="Car" />
-        </EntityType>
-        <EntityType Name="Car">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CarNum" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdBodyType" Type="Int32" Nullable="false" />
-          <Property Name="IdDrive" Type="Int32" Nullable="false" />
-          <Property Name="IdCarBrand" Type="Int32" Nullable="false" />
-          <Property Name="Model" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdCountry" Type="Int32" Nullable="false" />
-          <Property Name="YearRelease" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
-          <Property Name="State" Type="Boolean" Nullable="false" />
-          <Property Name="StateNumber" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="true" />
-          <Property Name="IdColor" Type="Int32" Nullable="false" />
-          <Property Name="IdTypeKPP" Type="Int32" Nullable="false" />
-          <Property Name="IdEngineCapacity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BodyType" Relationship="AutoSchoolModel.FK_Car_BodyType" FromRole="Car" ToRole="BodyType" />
-          <NavigationProperty Name="CarBrand" Relationship="AutoSchoolModel.FK_Car_CarBrand" FromRole="Car" ToRole="CarBrand" />
-          <NavigationProperty Name="Color" Relationship="AutoSchoolModel.FK_Car_Color" FromRole="Car" ToRole="Color" />
-          <NavigationProperty Name="Country" Relationship="AutoSchoolModel.FK_Car_Country" FromRole="Car" ToRole="Country" />
-          <NavigationProperty Name="Drive" Relationship="AutoSchoolModel.FK_Car_Drive" FromRole="Car" ToRole="Drive" />
-          <NavigationProperty Name="EngineCapacity" Relationship="AutoSchoolModel.FK_Car_EngineCapacity" FromRole="Car" ToRole="EngineCapacity" />
-          <NavigationProperty Name="TypeKPP" Relationship="AutoSchoolModel.FK_Car_TypeKPP" FromRole="Car" ToRole="TypeKPP" />
-          <NavigationProperty Name="CarDistribution" Relationship="AutoSchoolModel.FK_CarDistribution_Car" FromRole="Car" ToRole="CarDistribution" />
-          <NavigationProperty Name="DecommissionedCars" Relationship="AutoSchoolModel.FK_WriteDownt_Car" FromRole="Car" ToRole="DecommissionedCars" />
-        </EntityType>
-        <EntityType Name="CarBrand">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Car" Relationship="AutoSchoolModel.FK_Car_CarBrand" FromRole="CarBrand" ToRole="Car" />
-        </EntityType>
-        <EntityType Name="CarDistribution">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCar" Type="Int32" Nullable="false" />
-          <Property Name="IdEmployee" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Car" Relationship="AutoSchoolModel.FK_CarDistribution_Car" FromRole="CarDistribution" ToRole="Car" />
-          <NavigationProperty Name="Employee" Relationship="AutoSchoolModel.FK_CarDistribution_Employee" FromRole="CarDistribution" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="Categories">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <NavigationProperty Name="Course" Relationship="AutoSchoolModel.FK_Course_Categories" FromRole="Categories" ToRole="Course" />
-        </EntityType>
-        <EntityType Name="Color">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Car" Relationship="AutoSchoolModel.FK_Car_Color" FromRole="Color" ToRole="Car" />
-        </EntityType>
-        <EntityType Name="Country">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Car" Relationship="AutoSchoolModel.FK_Car_Country" FromRole="Country" ToRole="Car" />
-        </EntityType>
-        <EntityType Name="Course">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Number" Type="Int32" Nullable="false" />
-          <Property Name="IdCategories" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Categories" Relationship="AutoSchoolModel.FK_Course_Categories" FromRole="Course" ToRole="Categories" />
-          <NavigationProperty Name="Groups" Relationship="AutoSchoolModel.FK_Groups_Course" FromRole="Course" ToRole="Groups" />
-        </EntityType>
-        <EntityType Name="DecommissionedCars">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCar" Type="Int32" Nullable="false" />
-          <Property Name="IdEmployee" Type="Int32" Nullable="false" />
-          <Property Name="Reason" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ServiceLife" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Car" Relationship="AutoSchoolModel.FK_WriteDownt_Car" FromRole="DecommissionedCars" ToRole="Car" />
-          <NavigationProperty Name="Employee" Relationship="AutoSchoolModel.FK_WriteDownt_Employee" FromRole="DecommissionedCars" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="Drive">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Car" Relationship="AutoSchoolModel.FK_Car_Drive" FromRole="Drive" ToRole="Car" />
-        </EntityType>
-        <EntityType Name="ElementsBeingWorkedOut">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Patronymic" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Age" Type="Int32" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="18" FixedLength="true" Unicode="true" />
-          <Property Name="IdPost" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CarDistribution" Relationship="AutoSchoolModel.FK_CarDistribution_Employee" FromRole="Employee" ToRole="CarDistribution" />
-          <NavigationProperty Name="DecommissionedCars" Relationship="AutoSchoolModel.FK_WriteDownt_Employee" FromRole="Employee" ToRole="DecommissionedCars" />
-          <NavigationProperty Name="Post" Relationship="AutoSchoolModel.FK_Employee_Post" FromRole="Employee" ToRole="Post" />
-          <NavigationProperty Name="Groups" Relationship="AutoSchoolModel.FK_Groups_Employee" FromRole="Employee" ToRole="Groups" />
-          <NavigationProperty Name="Lessons" Relationship="AutoSchoolModel.FK_Lessons_Employee" FromRole="Employee" ToRole="Lessons" />
-        </EntityType>
-        <EntityType Name="EngineCapacity">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="Decimal" Nullable="false" Precision="18" Scale="1" />
-          <NavigationProperty Name="Car" Relationship="AutoSchoolModel.FK_Car_EngineCapacity" FromRole="EngineCapacity" ToRole="Car" />
-        </EntityType>
-        <EntityType Name="Groups">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DateOfFormation" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="IdEmployee" Type="Int32" Nullable="false" />
-          <Property Name="IdCourse" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Course" Relationship="AutoSchoolModel.FK_Groups_Course" FromRole="Groups" ToRole="Course" />
-          <NavigationProperty Name="Employee" Relationship="AutoSchoolModel.FK_Groups_Employee" FromRole="Groups" ToRole="Employee" />
-          <NavigationProperty Name="GroupStudent" Relationship="AutoSchoolModel.FK_GroupStudent_Groups1" FromRole="Groups" ToRole="GroupStudent" />
-          <NavigationProperty Name="TheoreticalClasses" Relationship="AutoSchoolModel.FK_TheoreticalClasses_Groups" FromRole="Groups" ToRole="TheoreticalClasses" />
-        </EntityType>
-        <EntityType Name="GroupStudent">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdStudent" Type="Int32" Nullable="false" />
-          <Property Name="IdGroup" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Groups" Relationship="AutoSchoolModel.FK_GroupStudent_Groups1" FromRole="GroupStudent" ToRole="Groups" />
-          <NavigationProperty Name="Student" Relationship="AutoSchoolModel.FK_GroupStudent_Student1" FromRole="GroupStudent" ToRole="Student" />
-        </EntityType>
-        <EntityType Name="History">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Comment" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
-        <EntityType Name="Lessons">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdEmployee" Type="Int32" Nullable="false" />
-          <Property Name="IdMarks" Type="Int32" Nullable="false" />
-          <Property Name="IdStudent" Type="Int32" Nullable="false" />
-          <Property Name="IdPlacesStudy" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="AutoSchoolModel.FK_Lessons_Employee" FromRole="Lessons" ToRole="Employee" />
-          <NavigationProperty Name="Marks" Relationship="AutoSchoolModel.FK_Lessons_Marks" FromRole="Lessons" ToRole="Marks" />
-          <NavigationProperty Name="PlacesStudy" Relationship="AutoSchoolModel.FK_Lessons_PlacesStudy" FromRole="Lessons" ToRole="PlacesStudy" />
-          <NavigationProperty Name="Student" Relationship="AutoSchoolModel.FK_Lessons_Student" FromRole="Lessons" ToRole="Student" />
-        </EntityType>
-        <EntityType Name="Marks">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Lessons" Relationship="AutoSchoolModel.FK_Lessons_Marks" FromRole="Marks" ToRole="Lessons" />
-        </EntityType>
-        <EntityType Name="PlacesStudy">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Lessons" Relationship="AutoSchoolModel.FK_Lessons_PlacesStudy" FromRole="PlacesStudy" ToRole="Lessons" />
-        </EntityType>
-        <EntityType Name="Post">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Employee" Relationship="AutoSchoolModel.FK_Employee_Post" FromRole="Post" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="Student">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Patronymic" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PasportSeries" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
-          <Property Name="PasportNum" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="true" />
-          <Property Name="Age" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GroupStudent" Relationship="AutoSchoolModel.FK_GroupStudent_Student1" FromRole="Student" ToRole="GroupStudent" />
-          <NavigationProperty Name="Lessons" Relationship="AutoSchoolModel.FK_Lessons_Student" FromRole="Student" ToRole="Lessons" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="TheoreticalClasses">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdGroup" Type="Int32" Nullable="false" />
-          <Property Name="NumClass" Type="Int32" Nullable="false" />
-          <Property Name="LessonNum" Type="Int32" Nullable="false" />
-          <Property Name="Duration" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Groups" Relationship="AutoSchoolModel.FK_TheoreticalClasses_Groups" FromRole="TheoreticalClasses" ToRole="Groups" />
-        </EntityType>
-        <EntityType Name="TypeKPP">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Car" Relationship="AutoSchoolModel.FK_Car_TypeKPP" FromRole="TypeKPP" ToRole="Car" />
-        </EntityType>
-        <EntityType Name="CARr">
-          <Key>
-            <PropertyRef Name="Бренд" />
-            <PropertyRef Name="Модель" />
-            <PropertyRef Name="КПП" />
-            <PropertyRef Name="Двигатель" />
-            <PropertyRef Name="Привод" />
-            <PropertyRef Name="Год_выпуска" />
-            <PropertyRef Name="гос__Номер" />
-          </Key>
-          <Property Name="Бренд" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Модель" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Цвет" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="КПП" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Двигатель" Type="Decimal" Nullable="false" Precision="18" Scale="1" />
-          <Property Name="Привод" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Год_выпуска" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
-          <Property Name="гос__Номер" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Employe">
-          <Key>
-            <PropertyRef Name="ФИО" />
-            <PropertyRef Name="Телефон" />
-            <PropertyRef Name="Должностб" />
-          </Key>
-          <Property Name="ФИО" Type="String" Nullable="false" MaxLength="152" FixedLength="false" Unicode="true" />
-          <Property Name="Телефон" Type="String" Nullable="false" MaxLength="18" FixedLength="true" Unicode="true" />
-          <Property Name="Должностб" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Возраст" Type="Int32" />
-        </EntityType>
-        <EntityType Name="Student_Group">
-          <Key>
-            <PropertyRef Name="ФИО" />
-            <PropertyRef Name="Телефон" />
-            <PropertyRef Name="Серия_и_номер" />
-            <PropertyRef Name="Возраст" />
-            <PropertyRef Name="Номер_группы" />
-          </Key>
-          <Property Name="ФИО" Type="String" Nullable="false" MaxLength="152" FixedLength="false" Unicode="true" />
-          <Property Name="Телефон" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Серия_и_номер" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="Возраст" Type="Int32" Nullable="false" />
-          <Property Name="Номер_группы" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_Car_BodyType">
-          <End Type="AutoSchoolModel.BodyType" Role="BodyType" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Car" Role="Car" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BodyType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Car">
-              <PropertyRef Name="IdBodyType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Car_CarBrand">
-          <End Type="AutoSchoolModel.CarBrand" Role="CarBrand" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Car" Role="Car" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CarBrand">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Car">
-              <PropertyRef Name="IdCarBrand" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Car_Color">
-          <End Type="AutoSchoolModel.Color" Role="Color" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Car" Role="Car" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Color">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Car">
-              <PropertyRef Name="IdColor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Car_Country">
-          <End Type="AutoSchoolModel.Country" Role="Country" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Car" Role="Car" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Country">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Car">
-              <PropertyRef Name="IdCountry" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Car_Drive">
-          <End Type="AutoSchoolModel.Drive" Role="Drive" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Car" Role="Car" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Drive">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Car">
-              <PropertyRef Name="IdDrive" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Car_EngineCapacity">
-          <End Type="AutoSchoolModel.EngineCapacity" Role="EngineCapacity" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Car" Role="Car" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EngineCapacity">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Car">
-              <PropertyRef Name="IdEngineCapacity" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Car_TypeKPP">
-          <End Type="AutoSchoolModel.TypeKPP" Role="TypeKPP" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Car" Role="Car" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TypeKPP">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Car">
-              <PropertyRef Name="IdTypeKPP" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CarDistribution_Car">
-          <End Type="AutoSchoolModel.Car" Role="Car" Multiplicity="1" />
-          <End Type="AutoSchoolModel.CarDistribution" Role="CarDistribution" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Car">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CarDistribution">
-              <PropertyRef Name="IdCar" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WriteDownt_Car">
-          <End Type="AutoSchoolModel.Car" Role="Car" Multiplicity="1" />
-          <End Type="AutoSchoolModel.DecommissionedCars" Role="DecommissionedCars" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Car">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DecommissionedCars">
-              <PropertyRef Name="IdCar" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CarDistribution_Employee">
-          <End Type="AutoSchoolModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="AutoSchoolModel.CarDistribution" Role="CarDistribution" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CarDistribution">
-              <PropertyRef Name="IdEmployee" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Course_Categories">
-          <End Type="AutoSchoolModel.Categories" Role="Categories" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Course" Role="Course" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Categories">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Course">
-              <PropertyRef Name="IdCategories" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Groups_Course">
-          <End Type="AutoSchoolModel.Course" Role="Course" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Groups" Role="Groups" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Course">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Groups">
-              <PropertyRef Name="IdCourse" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WriteDownt_Employee">
-          <End Type="AutoSchoolModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="AutoSchoolModel.DecommissionedCars" Role="DecommissionedCars" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DecommissionedCars">
-              <PropertyRef Name="IdEmployee" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_Post">
-          <End Type="AutoSchoolModel.Post" Role="Post" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Post">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="IdPost" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Groups_Employee">
-          <End Type="AutoSchoolModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Groups" Role="Groups" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Groups">
-              <PropertyRef Name="IdEmployee" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Lessons_Employee">
-          <End Type="AutoSchoolModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Lessons" Role="Lessons" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Lessons">
-              <PropertyRef Name="IdEmployee" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupStudent_Groups1">
-          <End Type="AutoSchoolModel.Groups" Role="Groups" Multiplicity="1" />
-          <End Type="AutoSchoolModel.GroupStudent" Role="GroupStudent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GroupStudent">
-              <PropertyRef Name="IdGroup" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TheoreticalClasses_Groups">
-          <End Type="AutoSchoolModel.Groups" Role="Groups" Multiplicity="1" />
-          <End Type="AutoSchoolModel.TheoreticalClasses" Role="TheoreticalClasses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TheoreticalClasses">
-              <PropertyRef Name="IdGroup" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupStudent_Student1">
-          <End Type="AutoSchoolModel.Student" Role="Student" Multiplicity="1" />
-          <End Type="AutoSchoolModel.GroupStudent" Role="GroupStudent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Student">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GroupStudent">
-              <PropertyRef Name="IdStudent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Lessons_Marks">
-          <End Type="AutoSchoolModel.Marks" Role="Marks" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Lessons" Role="Lessons" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Marks">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Lessons">
-              <PropertyRef Name="IdMarks" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Lessons_PlacesStudy">
-          <End Type="AutoSchoolModel.PlacesStudy" Role="PlacesStudy" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Lessons" Role="Lessons" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlacesStudy">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Lessons">
-              <PropertyRef Name="IdPlacesStudy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Lessons_Student">
-          <End Type="AutoSchoolModel.Student" Role="Student" Multiplicity="1" />
-          <End Type="AutoSchoolModel.Lessons" Role="Lessons" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Student">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Lessons">
-              <PropertyRef Name="IdStudent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище AutoSchoolModelContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AutoSchoolModelContainer" CdmEntityContainer="AutoSchoolEntities">
+          <EntitySetMapping Name="BodyType">
+            <EntityTypeMapping TypeName="AutoSchoolModel.BodyType">
+              <MappingFragment StoreEntitySet="BodyType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Car">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CarNum" ColumnName="CarNum" />
+                <ScalarProperty Name="IdBodyType" ColumnName="IdBodyType" />
+                <ScalarProperty Name="IdDrive" ColumnName="IdDrive" />
+                <ScalarProperty Name="IdCarBrand" ColumnName="IdCarBrand" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="IdCountry" ColumnName="IdCountry" />
+                <ScalarProperty Name="YearRelease" ColumnName="YearRelease" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="StateNumber" ColumnName="StateNumber" />
+                <ScalarProperty Name="IdColor" ColumnName="IdColor" />
+                <ScalarProperty Name="IdTypeKPP" ColumnName="IdTypeKPP" />
+                <ScalarProperty Name="IdEngineCapacity" ColumnName="IdEngineCapacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarBrand">
+            <EntityTypeMapping TypeName="AutoSchoolModel.CarBrand">
+              <MappingFragment StoreEntitySet="CarBrand">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarDistribution">
+            <EntityTypeMapping TypeName="AutoSchoolModel.CarDistribution">
+              <MappingFragment StoreEntitySet="CarDistribution">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdCar" ColumnName="IdCar" />
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Categories">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Color">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Color">
+              <MappingFragment StoreEntitySet="Color">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Country">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Course">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="IdCategories" ColumnName="IdCategories" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DecommissionedCars">
+            <EntityTypeMapping TypeName="AutoSchoolModel.DecommissionedCars">
+              <MappingFragment StoreEntitySet="DecommissionedCars">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdCar" ColumnName="IdCar" />
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ServiceLife" ColumnName="ServiceLife" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Drive">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Drive">
+              <MappingFragment StoreEntitySet="Drive">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ElementsBeingWorkedOut">
+            <EntityTypeMapping TypeName="AutoSchoolModel.ElementsBeingWorkedOut">
+              <MappingFragment StoreEntitySet="ElementsBeingWorkedOut">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IdPost" ColumnName="IdPost" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Loggin" ColumnName="Loggin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EngineCapacity">
+            <EntityTypeMapping TypeName="AutoSchoolModel.EngineCapacity">
+              <MappingFragment StoreEntitySet="EngineCapacity">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Groups">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DateOfFormation" ColumnName="DateOfFormation" />
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+                <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupStudent">
+            <EntityTypeMapping TypeName="AutoSchoolModel.GroupStudent">
+              <MappingFragment StoreEntitySet="GroupStudent">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
+                <ScalarProperty Name="IdGroup" ColumnName="IdGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="History">
+            <EntityTypeMapping TypeName="AutoSchoolModel.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lessons">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Lessons">
+              <MappingFragment StoreEntitySet="Lessons">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+                <ScalarProperty Name="IdMarks" ColumnName="IdMarks" />
+                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
+                <ScalarProperty Name="IdPlacesStudy" ColumnName="IdPlacesStudy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marks">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Marks">
+              <MappingFragment StoreEntitySet="Marks">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlacesStudy">
+            <EntityTypeMapping TypeName="AutoSchoolModel.PlacesStudy">
+              <MappingFragment StoreEntitySet="PlacesStudy">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Post">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="PasportSeries" ColumnName="PasportSeries" />
+                <ScalarProperty Name="PasportNum" ColumnName="PasportNum" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AutoSchoolModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TheoreticalClasses">
+            <EntityTypeMapping TypeName="AutoSchoolModel.TheoreticalClasses">
+              <MappingFragment StoreEntitySet="TheoreticalClasses">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdGroup" ColumnName="IdGroup" />
+                <ScalarProperty Name="NumClass" ColumnName="NumClass" />
+                <ScalarProperty Name="LessonNum" ColumnName="LessonNum" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeKPP">
+            <EntityTypeMapping TypeName="AutoSchoolModel.TypeKPP">
+              <MappingFragment StoreEntitySet="TypeKPP">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARr">
+            <EntityTypeMapping TypeName="AutoSchoolModel.CARr">
+              <MappingFragment StoreEntitySet="CARr">
+                <ScalarProperty Name="Бренд" ColumnName="Бренд" />
+                <ScalarProperty Name="Модель" ColumnName="Модель" />
+                <ScalarProperty Name="Цвет" ColumnName="Цвет" />
+                <ScalarProperty Name="КПП" ColumnName="КПП" />
+                <ScalarProperty Name="Двигатель" ColumnName="Двигатель" />
+                <ScalarProperty Name="Привод" ColumnName="Привод" />
+                <ScalarProperty Name="Год_выпуска" ColumnName="Год выпуска" />
+                <ScalarProperty Name="гос__Номер" ColumnName="гос. Номер" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employe">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Employe">
+              <MappingFragment StoreEntitySet="Employe">
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Должностб" ColumnName="Должностб" />
+                <ScalarProperty Name="Возраст" ColumnName="Возраст" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student_Group">
+            <EntityTypeMapping TypeName="AutoSchoolModel.Student_Group">
+              <MappingFragment StoreEntitySet="Student_Group">
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Серия_и_номер" ColumnName="Серия и номер" />
+                <ScalarProperty Name="Возраст" ColumnName="Возраст" />
+                <ScalarProperty Name="Номер_группы" ColumnName="Номер группы" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionName="Хранилище AutoSchoolModel.AVG_AGE1" FunctionImportName="AVG_AGE1">
             <ResultMapping>
               <ComplexTypeMapping TypeName="AutoSchoolModel.AVG_AGE1_Result">
@@ -1572,279 +1850,10 @@
               <ComplexTypeMapping TypeName="AutoSchoolModel.StudentCategory_Result">
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="BodyType">
-            <EntityTypeMapping TypeName="AutoSchoolModel.BodyType">
-              <MappingFragment StoreEntitySet="BodyType">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Car">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Car">
-              <MappingFragment StoreEntitySet="Car">
-                <ScalarProperty Name="IdEngineCapacity" ColumnName="IdEngineCapacity" />
-                <ScalarProperty Name="IdTypeKPP" ColumnName="IdTypeKPP" />
-                <ScalarProperty Name="IdColor" ColumnName="IdColor" />
-                <ScalarProperty Name="StateNumber" ColumnName="StateNumber" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="YearRelease" ColumnName="YearRelease" />
-                <ScalarProperty Name="IdCountry" ColumnName="IdCountry" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="IdCarBrand" ColumnName="IdCarBrand" />
-                <ScalarProperty Name="IdDrive" ColumnName="IdDrive" />
-                <ScalarProperty Name="IdBodyType" ColumnName="IdBodyType" />
-                <ScalarProperty Name="CarNum" ColumnName="CarNum" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CarBrand">
-            <EntityTypeMapping TypeName="AutoSchoolModel.CarBrand">
-              <MappingFragment StoreEntitySet="CarBrand">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CarDistribution">
-            <EntityTypeMapping TypeName="AutoSchoolModel.CarDistribution">
-              <MappingFragment StoreEntitySet="CarDistribution">
-                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
-                <ScalarProperty Name="IdCar" ColumnName="IdCar" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Categories">
-              <MappingFragment StoreEntitySet="Categories">
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Color">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Color">
-              <MappingFragment StoreEntitySet="Color">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Country">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Country">
-              <MappingFragment StoreEntitySet="Country">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Course">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Course">
-              <MappingFragment StoreEntitySet="Course">
-                <ScalarProperty Name="IdCategories" ColumnName="IdCategories" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DecommissionedCars">
-            <EntityTypeMapping TypeName="AutoSchoolModel.DecommissionedCars">
-              <MappingFragment StoreEntitySet="DecommissionedCars">
-                <ScalarProperty Name="ServiceLife" ColumnName="ServiceLife" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
-                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
-                <ScalarProperty Name="IdCar" ColumnName="IdCar" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Drive">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Drive">
-              <MappingFragment StoreEntitySet="Drive">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ElementsBeingWorkedOut">
-            <EntityTypeMapping TypeName="AutoSchoolModel.ElementsBeingWorkedOut">
-              <MappingFragment StoreEntitySet="ElementsBeingWorkedOut">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employee">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="IdPost" ColumnName="IdPost" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EngineCapacity">
-            <EntityTypeMapping TypeName="AutoSchoolModel.EngineCapacity">
-              <MappingFragment StoreEntitySet="EngineCapacity">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Groups">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Groups">
-              <MappingFragment StoreEntitySet="Groups">
-                <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
-                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
-                <ScalarProperty Name="DateOfFormation" ColumnName="DateOfFormation" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GroupStudent">
-            <EntityTypeMapping TypeName="AutoSchoolModel.GroupStudent">
-              <MappingFragment StoreEntitySet="GroupStudent">
-                <ScalarProperty Name="IdGroup" ColumnName="IdGroup" />
-                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="History">
-            <EntityTypeMapping TypeName="AutoSchoolModel.History">
-              <MappingFragment StoreEntitySet="History">
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Lessons">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Lessons">
-              <MappingFragment StoreEntitySet="Lessons">
-                <ScalarProperty Name="IdPlacesStudy" ColumnName="IdPlacesStudy" />
-                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
-                <ScalarProperty Name="IdMarks" ColumnName="IdMarks" />
-                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Marks">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Marks">
-              <MappingFragment StoreEntitySet="Marks">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PlacesStudy">
-            <EntityTypeMapping TypeName="AutoSchoolModel.PlacesStudy">
-              <MappingFragment StoreEntitySet="PlacesStudy">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Post">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Post">
-              <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Student">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Student">
-              <MappingFragment StoreEntitySet="Student">
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="PasportNum" ColumnName="PasportNum" />
-                <ScalarProperty Name="PasportSeries" ColumnName="PasportSeries" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="AutoSchoolModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TheoreticalClasses">
-            <EntityTypeMapping TypeName="AutoSchoolModel.TheoreticalClasses">
-              <MappingFragment StoreEntitySet="TheoreticalClasses">
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="LessonNum" ColumnName="LessonNum" />
-                <ScalarProperty Name="NumClass" ColumnName="NumClass" />
-                <ScalarProperty Name="IdGroup" ColumnName="IdGroup" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TypeKPP">
-            <EntityTypeMapping TypeName="AutoSchoolModel.TypeKPP">
-              <MappingFragment StoreEntitySet="TypeKPP">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CARr">
-            <EntityTypeMapping TypeName="AutoSchoolModel.CARr">
-              <MappingFragment StoreEntitySet="CARr">
-                <ScalarProperty Name="гос__Номер" ColumnName="гос. Номер" />
-                <ScalarProperty Name="Год_выпуска" ColumnName="Год выпуска" />
-                <ScalarProperty Name="Привод" ColumnName="Привод" />
-                <ScalarProperty Name="Двигатель" ColumnName="Двигатель" />
-                <ScalarProperty Name="КПП" ColumnName="КПП" />
-                <ScalarProperty Name="Цвет" ColumnName="Цвет" />
-                <ScalarProperty Name="Модель" ColumnName="Модель" />
-                <ScalarProperty Name="Бренд" ColumnName="Бренд" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employe">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Employe">
-              <MappingFragment StoreEntitySet="Employe">
-                <ScalarProperty Name="Возраст" ColumnName="Возраст" />
-                <ScalarProperty Name="Должностб" ColumnName="Должностб" />
-                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
-                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Student_Group">
-            <EntityTypeMapping TypeName="AutoSchoolModel.Student_Group">
-              <MappingFragment StoreEntitySet="Student_Group">
-                <ScalarProperty Name="Номер_группы" ColumnName="Номер группы" />
-                <ScalarProperty Name="Возраст" ColumnName="Возраст" />
-                <ScalarProperty Name="Серия_и_номер" ColumnName="Серия и номер" />
-                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
-                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

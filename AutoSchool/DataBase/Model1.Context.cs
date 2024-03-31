@@ -15,10 +15,10 @@ namespace AutoSchool.DataBase
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class Entities : DbContext
+    public partial class AutoSchoolEntities : DbContext
     {
-        public Entities()
-            : base("name=Entities")
+        public AutoSchoolEntities()
+            : base("name=AutoSchoolEntities")
         {
         }
     
@@ -55,24 +55,24 @@ namespace AutoSchool.DataBase
         public virtual DbSet<Employe> Employe { get; set; }
         public virtual DbSet<Student_Group> Student_Group { get; set; }
     
-        [DbFunction("Entities", "AVG_AGE1")]
+        [DbFunction("AutoSchoolEntities", "AVG_AGE1")]
         public virtual IQueryable<AVG_AGE1_Result> AVG_AGE1(Nullable<int> idGroup)
         {
             var idGroupParameter = idGroup.HasValue ?
                 new ObjectParameter("idGroup", idGroup) :
                 new ObjectParameter("idGroup", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<AVG_AGE1_Result>("[Entities].[AVG_AGE1](@idGroup)", idGroupParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<AVG_AGE1_Result>("[AutoSchoolEntities].[AVG_AGE1](@idGroup)", idGroupParameter);
         }
     
-        [DbFunction("Entities", "GETLessCount")]
+        [DbFunction("AutoSchoolEntities", "GETLessCount")]
         public virtual IQueryable<GETLessCount_Result> GETLessCount(Nullable<int> idStudent)
         {
             var idStudentParameter = idStudent.HasValue ?
                 new ObjectParameter("idStudent", idStudent) :
                 new ObjectParameter("idStudent", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GETLessCount_Result>("[Entities].[GETLessCount](@idStudent)", idStudentParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GETLessCount_Result>("[AutoSchoolEntities].[GETLessCount](@idStudent)", idStudentParameter);
         }
     
         public virtual int AddStudentInGroup()
