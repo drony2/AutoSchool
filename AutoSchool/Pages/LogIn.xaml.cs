@@ -13,16 +13,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AutoSchool
+namespace AutoSchool.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для LogIn.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LogIn : Page
     {
-        public MainWindow()
+        public LogIn()
         {
             InitializeComponent();
+        }
+
+        private void btnSigIn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnEnter_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnSignCatalog_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
