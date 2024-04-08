@@ -20,12 +20,14 @@
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
+        
         <Grid Grid.Column="1" Grid.Row="1" Background="Azure">
+
             <StackPanel>
 
 
                 <StackPanel>
-                    <TextBlock Text="Если вы войдете в аккаунт, вы сможете получить полный функцинал приложения."
+                    <TextBlock Text="Если у вас нет доступа, обратитесь к администрации."
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        TextAlignment ="Center" Margin="0 15 0 0 " FontSize="15" Width="350" FontStyle="Oblique" TextWrapping="Wrap"/>
 
@@ -46,13 +48,6 @@
                     </StackPanel>
                     <Button x:Name="btnSigIn" BorderThickness="0" Content="Войти" Background="Transparent"
                         FontSize="20" Width="70" Margin="0 50 0 0 " Click="btnSigIn_Click" />
-
-                    <Button x:Name="btnEnter" BorderThickness="0" Content="Зарегестрироваться" Background="Transparent"
-                        FontSize="20" Width="185" Margin="0 50 0 0 " Click="btnEnter_Click"/>
-
-                    <Button x:Name="btnSignCatalog" BorderThickness="0" Content="Войти как гость" Background="Transparent"
-                        FontSize="20" Width="185" Margin="0 50 0 0 " Click="btnSignCatalog_Click" />
-
                 </StackPanel>
 
             </StackPanel>

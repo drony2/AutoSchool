@@ -15,6 +15,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static AutoSchool.ClassHelper.EF;
 using AutoSchool.DataBase;
+using System.Data.SqlClient;
+using System.Data;
+using System.Reflection.Emit;
+using System.Threading;
 
 
 namespace AutoSchool.Pages
@@ -28,7 +32,7 @@ namespace AutoSchool.Pages
         {
             InitializeComponent();
         }
-
+        AutoSchoolEntities e = new AutoSchoolEntities();
 
         private void btnSigIn_Click(object sender, RoutedEventArgs e)
         {
@@ -38,58 +42,46 @@ namespace AutoSchool.Pages
                 if (!ValidationClass.ValidationNotClearString(mas[i]))
                 {
                     MessageBox.Show("Заполните все строки");
-                    break;
-                }
-
-                var userAuth = Context.Employee.Where(y => y.Loggin == tbxLoggin.Text && y.Password == psbPassword.Password).FirstOrDefault();
-                if (userAuth == null)
-                {
-                    MessageBox.Show("Пользователь не найден", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
+            }
 
-                switch (userAuth.IdPost)
-                {
-                    case 1:
-                        InvoiseUser(userAuth, "");
+            var userAuth = Context.Employee.Where(y => y.Loggin == tbxLoggin.Text && y.Password == psbPassword.Password).FirstOrDefault();
+            if (userAuth == null)
+            {
+                MessageBox.Show("Неверный Логин или Пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
+            switch (userAuth.IdPost)
+            { 
+                case 4:
+                    InvoiseUser(userAuth, userAuth.IdPost);
+                    NavigationClass.navFrame.Navigate(new AdminPanelPages());
+                    return;
 
-                        NavigationClass.navFrame.Navigate(new Pages.AdminPage());
-                        break;
-
-                    case 2:
-                        
-                        MessageBox.Show("Руководитель");
-                        break;
-
-                    case 3:
-
-
-                        MessageBox.Show("Учитель");
-                        break;
-
-                    case 4:
-  
-
-                        MessageBox.Show("Админ");
-                        break;
-
-                    default:
-                        break;
-                }
+                default:
+                    InvoiseUser(userAuth, userAuth.IdPost);
+                    NavigationClass.navFrame.Navigate(new UserPanelPage());
+                    return;
             }
         }
 
-        private void InvoiseUser(Employee UserAuth, string Position)
-        { 
-        }
-        private void btnEnter_Click(object sender, RoutedEventArgs e)
+        private void InvoiseUser(Employee UserAuth, int Position)
         {
+            SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-S0HAMEM;Initial Catalog=AutoSchool;Integrated Security=True");
+            string Sql = $"select top 1 Title from [dbo].[Employee] e join [dbo].[Post] p on e.IdPost = p.Id where e.IdPost = '{Position}'";
+            SqlCommand scmd = new SqlCommand(Sql, con);
+            con.Open();
+            SqlDataReader sur = scmd.ExecuteReader();
 
-        }
-
-        private void btnSignCatalog_Click(object sender, RoutedEventArgs e)
-        {
-
+            while (sur.Read())
+            {
+                string Title = sur["Title"].ToString();
+                LogginUser.Position = Title;
+                LogginUser.Employee = UserAuth;
+            }
+            con.Close();
         }
     }
 }
