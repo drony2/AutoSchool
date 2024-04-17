@@ -24,5 +24,29 @@ namespace AutoSchool.Pages
         {
             InitializeComponent();
         }
+
+        private void btnEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            ClassHelper.NavigationClass.AdminPanelNav = 1;
+            ClassHelper.NavigationClass.navFrame.Navigate(new ChangePeopleAndCars());
+        }
+
+        private void btnStudent_Click(object sender, RoutedEventArgs e)
+        {
+            ClassHelper.NavigationClass.AdminPanelNav = 2;
+            ClassHelper.NavigationClass.navFrame.Navigate(new ChangePeopleAndCars());
+        }
+
+        private void btnAuto_Click(object sender, RoutedEventArgs e)
+        {
+            ClassHelper.NavigationClass.AdminPanelNav = 3;
+            ClassHelper.NavigationClass.navFrame.Navigate(new ChangePeopleAndCars());
+        }
+
+        private void btnAutoService_Click(object sender, RoutedEventArgs e)
+        {
+            ClassHelper.NavigationClass.AdminPanelNav = 4;
+            ClassHelper.NavigationClass.navFrame.Navigate(new ChangePeopleAndCars());
+        }
     }
 }

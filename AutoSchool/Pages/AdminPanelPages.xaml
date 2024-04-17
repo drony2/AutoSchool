@@ -9,6 +9,22 @@
       Title="AdminPanelPages">
 
     <Grid>
-        
+        <TextBlock Text="Главная" VerticalAlignment="Top" HorizontalAlignment="Center"
+                Margin="0 70 0 0" FontSize="20"/>
+        <StackPanel VerticalAlignment="Center">
+           
+            <Button x:Name="btnEmployee" Content="Работники"
+                Width="150" Height="40" VerticalAlignment="Center"
+                HorizontalAlignment="Center" Margin="0 20 0 0" Click="btnEmployee_Click" />
+            <Button x:Name="btnStudent" Content="Студенты"
+                Width="150" Height="40" VerticalAlignment="Center"
+                HorizontalAlignment="Center" Margin="0 20 0 0 " Click="btnStudent_Click"  />
+            <Button x:Name="btnAuto" Content="Автомабили"
+                Width="150" Height="40" VerticalAlignment="Center"
+                HorizontalAlignment="Center" Margin="0 20 0 20 " Click="btnAuto_Click"  />
+            <Button x:Name="btnAutoService" Content="Авто в ремонте"
+                Width="150" Height="40" VerticalAlignment="Center"
+                HorizontalAlignment="Center" Click="btnAutoService_Click"   />
+        </StackPanel>
     </Grid>
 </Page>

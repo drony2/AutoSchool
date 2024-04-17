@@ -192,6 +192,9 @@
     <Compile Include="Pages\AdminPanelPages.xaml.cs">
       <DependentUpon>AdminPanelPages.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ChangePeopleAndCars.xaml.cs">
+      <DependentUpon>ChangePeopleAndCars.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\LogIn.xaml.cs">
       <DependentUpon>LogIn.xaml</DependentUpon>
     </Compile>
@@ -241,6 +244,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Pages\AdminPanelPages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ChangePeopleAndCars.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

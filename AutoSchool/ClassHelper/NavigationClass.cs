@@ -14,5 +14,6 @@ namespace AutoSchool.ClassHelper
 
          public static int EmplUser;
         
+         public static int AdminPanelNav;
     }
 }
